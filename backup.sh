@@ -8,16 +8,15 @@ source setenv.sh
 
 # Get date and time for backup file path
 date=$(date +%y%m%d.%H%M)
-now=$(date +%H:%M:%S)
 
 # Begin
-echo "Creating directory structure"
 YEAR=`date +%Y`
 MONTH=`date +%m`
 DAY=`date +%d`
 HOUR=`date +%H`
-if [ ! -d "$ROOTDIR/$YEAR/$MONTH/$DAY/$HOUR" ]; then
-    mkdir -p "$ROOTDIR/$YEAR/$MONTH/$DAY/$HOUR"
+if [ ! -d "$ROOT_DIR/$YEAR/$MONTH/$DAY/$HOUR" ]; then
+    echo "Creating directory structure $ROOT_DIR/$YEAR/$MONTH/$DAY/$HOUR"
+    mkdir -p "$ROOT_DIR/$YEAR/$MONTH/$DAY/$HOUR"
     fi
 
 echo "Getting database list from MySQL"
@@ -27,7 +26,7 @@ for db in $dblist; do
     echo "Performing backup of $db"
     isExcluded=`echo $EXCLUDE_LIST |grep $db`
     if [ $? == 1 ]; then
-        mysqldump --single-transaction -u$MYSQL_USER -p$MYSQL_PASS -h $MYSQL_SERVER $db | gzip --best > "$ROOTDIR/$YEAR/$MONTH/$DAY/$HOUR/$db.sql.gz"
+        mysqldump --single-transaction -u$MYSQL_USER -p$MYSQL_PASS -h $MYSQL_SERVER $db | gzip --best > "$ROOT_DIR/$YEAR/$MONTH/$DAY/$HOUR/$db.sql.gz"
         echo "Backup of $db ended with return code $?"
     else
         echo "Database $db is on excluded list, skipping"
