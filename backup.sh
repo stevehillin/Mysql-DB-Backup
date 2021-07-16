@@ -30,7 +30,7 @@ for db in $dblist; do
         mysqldump --single-transaction -u$MYSQL_USER -p$MYSQL_PASS -h $MYSQL_SERVER $db | gzip --best > "$ROOTDIR/$YEAR/$MONTH/$DAY/$HOUR/$db.sql.gz"
         echo "Backup of $db ended with return code $?"
     else
-        echo "Database $db is on exclude list, skipping"
+        echo "Database $db is on excluded list, skipping"
     fi
 done
 echo "Mysql backups complete"
