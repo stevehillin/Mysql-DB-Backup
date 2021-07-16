@@ -17,14 +17,14 @@ MONTH=`date +%m`
 DAY=`date +%d`
 HOUR=`date +%H`
 if [ ! -d "$ROOTDIR/$YEAR/$MONTH/$DAY/$HOUR" ]; then
-  mkdir -p "$ROOTDIR/$YEAR/$MONTH/$DAY/$HOUR"
-  fi
+    mkdir -p "$ROOTDIR/$YEAR/$MONTH/$DAY/$HOUR"
+    fi
 
 echo "Getting database list from MySQL"
 dblist=`mysql -u$MYSQL_USER -p$MYSQL_PASS -h $MYSQL_SERVER -e "show databases" | sed -n '2,$ p'`
 
 for db in $dblist; do
-    echo "Performing backup on $db"
+    echo "Performing backup of $db"
     isExcluded=`echo $EXCLUDE_LIST |grep $db`
     if [ $? == 1 ]; then
         mysqldump --single-transaction -u$MYSQL_USER -p$MYSQL_PASS -h $MYSQL_SERVER $db | gzip --best > "$ROOTDIR/$YEAR/$MONTH/$DAY/$HOUR/$db.sql.gz"
