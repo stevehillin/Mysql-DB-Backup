@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Steve's database backup script 
+# Steve's database backup script
 # https://github.com/stevehillin/Mysql-DB-Backup
 
 # Get environment variables via setenv.sh
